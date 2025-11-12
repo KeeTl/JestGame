@@ -1,4 +1,4 @@
-package com.jestgame.cards;
+package fr.utt.kirank.jestgame.cards;
 
 public enum COLOR {
     SPADES("spades", "pic"),
