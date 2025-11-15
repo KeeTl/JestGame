@@ -1,5 +1,5 @@
 
-package fr.utt.kirank.jestgame.cards;
+package jestgame.cards;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package fr.utt.kirank.jestgame.cards;
+package jestgame.cards;
 
 public interface Visitor {
     public void Visit();    

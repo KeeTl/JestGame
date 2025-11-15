@@ -1,12 +1,12 @@
 
-package fr.utt.kirank.jestgame.cards;
+package jestgame.cards;
 
 import java.util.ArrayList;
 
 public class Hand extends CardStack {
 
     public Hand() {
-        this.cStack = new ArrayList<Card>();
+        this.cStack = new ArrayList<>();
     }
 
     public Card removeCard(int id) {

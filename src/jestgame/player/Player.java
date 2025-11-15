@@ -1,4 +1,4 @@
-package fr.utt.kirank.jestgame.player;
+package jestgame.player;
 
 
 public abstract class Player {

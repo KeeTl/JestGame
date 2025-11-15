@@ -1,4 +1,4 @@
-package fr.utt.kirank.jestgame.cards;
+package jestgame.cards;
 
 /**
  * COLOR enumeration, used to represent the four colors (suits) + the joker.

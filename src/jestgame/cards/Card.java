@@ -1,6 +1,5 @@
-package fr.utt.kirank.jestgame.cards;
+package jestgame.cards;
 
-import fr.utt.kirank.jestgame.cards.visitor.*;
 
 /**
  * Card class, it's name is pretty explicit isn't he ?
