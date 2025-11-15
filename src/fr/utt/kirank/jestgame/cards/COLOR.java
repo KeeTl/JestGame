@@ -1,5 +1,10 @@
 package fr.utt.kirank.jestgame.cards;
 
+/**
+ * COLOR enumeration, used to represent the four colors (suits) + the joker.
+ * 
+ * @author Kiran K {@link https://github.com/KeeTl}
+ */
 public enum COLOR {
     SPADES("spades", "pic"),
     CLUBS("clubs", "trèele"),
