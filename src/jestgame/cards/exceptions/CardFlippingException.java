@@ -13,9 +13,4 @@ public class CardFlippingException extends CardException {
         String message = "Card is already in that position";
         this(message, cardState);
     }
-
-    @Override
-    public  getExcpetionNature() {
-        return CardFlippingException;
-    }
 }

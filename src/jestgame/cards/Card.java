@@ -1,5 +1,5 @@
 package jestgame.cards;
-
+import jestgame.visitor.Visitor; 
 
 /**
  * Card class, it's name is pretty explicit isn't he ?
@@ -7,9 +7,9 @@ package jestgame.cards;
  * @author Kiran K {@link https://github.com/KeeTl}.
  */
 public class Card {
-    private VALUE val;
-    private COLOR col;
-    //private TROPHY troph;
+    private final VALUE val;
+    private final COLOR col;
+    private TROPHY troph;
 
     private boolean faceup;
 
@@ -46,8 +46,29 @@ public class Card {
         return this.faceup;
     }
 
-    public void Accept(Visitor v) {
+    /**
+     * Visitor pattern implementation
+     * 
+     * @param v Visitor type.
+     */
+    public void accept(Visitor v) {
+        v.visit(this);
+    }
 
+    public VALUE getval() {
+        return this.val;
+    }
+
+    public COLOR getcol() {
+        return this.col;
+    }
+    
+    public void setTrophy(TROPHY t) {
+        this.troph = t;
+    }
+
+    public TROPHY gettroph() {
+        return this.troph;
     }
 
 }
