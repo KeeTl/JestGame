@@ -1,5 +1,6 @@
 package jestgame.cards;
 import jestgame.cards.exceptions.*;
+import jestgame.cards.characteristics.*;
 import jestgame.visitor.Visitor;
 
 /**
