@@ -1,5 +1,6 @@
 package jestgame.cards;
-import jestgame.visitor.Visitor; 
+import jestgame.cards.exceptions.*;
+import jestgame.visitor.Visitor;
 
 /**
  * Card class, it's name is pretty explicit isn't he ?
@@ -28,13 +29,20 @@ public class Card {
         this.faceup = false;
     }
 
-    /**
-     * Tells if the card is face up or down
-     * 
-     * @return true if the card is face up, false if it is'nt.
-     */
-    public boolean faceup() {
-        return this.faceup;
+    public void faceUp() throws CardFlippingException {
+        if (this.isFaceup()) {
+            CardFlippingException e = new CardFlippingException(this.isFaceup());
+            throw e;
+        }
+        this.faceup = true;
+    }
+
+    public void faceDown() throws CardFlippingException {
+        if (this.isFaceup()) {
+            CardFlippingException e = new CardFlippingException(this.isFaceup());
+            throw e;
+        }
+        this.faceup = false;
     }
 
 
@@ -69,6 +77,15 @@ public class Card {
 
     public TROPHY gettroph() {
         return this.troph;
+    }
+
+    /**
+     * Tells if the card is face up or down
+     * 
+     * @return true if the card is face up, false if it is'nt.
+     */
+    public boolean isFaceup() {
+        return this.faceup;
     }
 
 }
