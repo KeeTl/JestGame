@@ -9,7 +9,7 @@ public enum VALUE{
     TWO(2),
     THREE(3),
     FOUR(4),
-    JOKER(6);
+    JOKER(4);
 
     /**
      * Not sure if I'll keep this like that

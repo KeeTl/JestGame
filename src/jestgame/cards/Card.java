@@ -1,7 +1,7 @@
 package jestgame.cards;
 import jestgame.cards.exceptions.*;
 import jestgame.cards.characteristics.*;
-import jestgame.visitor.Visitor;
+import jestgame.visitor.*;
 
 /**
  * Card class, it's name is pretty explicit isn't he ?
@@ -14,6 +14,8 @@ public class Card {
     private TROPHY troph;
 
     private boolean faceup;
+
+    private int score = 0;
 
     /**
      * Card init.
@@ -55,15 +57,11 @@ public class Card {
         return this.faceup;
     }
 
-    /**
-     * Visitor pattern implementation
-     * 
-     * @param v Visitor type.
-     */
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
+    public String toString() {
+        return this.getval().getV() + " of " + this.getcol().getdesc();
 
+    }
+    
     public VALUE getval() {
         return this.val;
     }
@@ -87,6 +85,20 @@ public class Card {
      */
     public boolean isFaceup() {
         return this.faceup;
+    }
+
+    public void setscore(int s) {
+        this.score = s;
+    }
+
+    public int getscore() {
+        return this.score;
+    }
+
+    public static void main(String[] args) {
+        
+        Card c = new Card(VALUE.ACE, COLOR.CLUBS);
+        System.out.println(c);
     }
 
 }

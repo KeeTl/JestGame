@@ -1,6 +1,5 @@
 package jestgame.visitor;
-import jestgame.cards.Card;
-
+import jestgame.cards.Jest;
 
 /**
  * <b> Visitor interface. </b>
@@ -8,5 +7,5 @@ import jestgame.cards.Card;
  * 
  */
 public interface Visitor {
-    public void visit(Card c);    
+    public void visit(Jest v);    
 }

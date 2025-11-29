@@ -25,5 +25,4 @@ public abstract class CardGroup {
 
     public abstract Card removeCard(int id) throws UnauthorizedCardDrawException;
     //public abstract Card removeCard();
-
 }
