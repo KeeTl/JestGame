@@ -1,6 +1,6 @@
 package jestgame.cards.exceptions;
 
-public class UnauthorizedCardDrawException extends Exception {
+public class UnauthorizedCardDrawException extends CardException {
     public UnauthorizedCardDrawException() {
         super("Card cannot be drawn");
     }
