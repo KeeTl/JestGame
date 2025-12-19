@@ -1,8 +1,8 @@
 
 package jestgame.cards;
 
-import jestgame.cards.exceptions.*;
 import java.util.Collection;
+import jestgame.cards.exceptions.*;
 
 /**
  * This is an abstract class establishing some methods used by its children classes. The
@@ -21,6 +21,10 @@ public abstract class CardGroup {
      */
     public void addCard(Card c) {
         cards.add(c);
+    }
+
+    public final int size() {
+        return this.cards.size();
     }
 
     public abstract Card removeCard(int id) throws UnauthorizedCardDrawException;

@@ -1,14 +1,14 @@
 package jestgame.cards;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
-import jestgame.cards.exceptions.*;
 import jestgame.cards.characteristics.*;
+import jestgame.cards.exceptions.*;
 
 
 /**

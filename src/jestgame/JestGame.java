@@ -63,11 +63,28 @@ public class JestGame {
             else {
                 playersLeftToPlay.remove(nextPlayer);
             }
-        }      
+        }
+
+        for (int i = 0; i < 2; i++) {
+            for (Player p : this.players) {
+                if (this.draw.size() == 0) {
+                    return;
+                }
+                p.addToHand(this.draw.drawCard());
+            }
+        }
+    }
+
+    public Player endGame() {
+        for (Player p : this.players) {
+            p.acceptJest(this.visitor);
+        }
     }
 
 
     public static void main() {
+
+
 
         
     }

@@ -71,13 +71,62 @@ public class Jest extends CardGroup implements Visitable{
         return this.score;        
     }
 
+    public Card lowestCard() {
+        Card res = (Card)(((List)this.cards).get(0));
+        Iterator<Card> c = this.cards.iterator();
+
+        while(c.hasNext()) {
+            Card current = c.next();
+            if (current.getscore() < res.getscore()) {
+                res = current;
+            }
+        }
+        return res;
+    }
+
+    public Card highestCard() {
+        Card res = (Card)(((List)this.cards).get(0));
+        Iterator<Card> c = this.cards.iterator();
+
+        while(c.hasNext()) {
+            Card current = c.next();
+            if (current.getscore() > res.getscore()) {
+                res = current;
+            }
+        }
+        return res;
+    }
 
     public List<Card> getCards() {
         return (List)this.cards;
     }
 
+    public List<Card> getCards(VALUE v) {
+        List<Card> res = new ArrayList();
+        Iterator<Card> iC = this.cards.iterator();
+        while (iC.hasNext()) {
+            Card current = iC.next();
+            if (current.getval() == v) {
+                res.add(current);
+            }
+        }
+        return res;
+    }
+
+    public List<Card> getCards(COLOR c) {
+        List<Card> res = new ArrayList();
+        Iterator<Card> iC = this.cards.iterator();
+        while (iC.hasNext()) {
+            Card current = iC.next();
+            if (current.getcol() == c) {
+                res.add(current);
+            }
+        }
+        return res;
+    }
+
     public int getscore() {
-        return this.score;
+        return (int)this.score;
     }
 
     public void setScore(int s) {
