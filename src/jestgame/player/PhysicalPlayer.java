@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Scanner;
 import jestgame.cards.Card;
 import jestgame.cards.Hand;
+import jestgame.cards.exceptions.CardFlippingException;
+import jestgame.cards.exceptions.UnreferencedCardException;
 
 public class PhysicalPlayer extends Player {
 
@@ -12,8 +14,22 @@ public class PhysicalPlayer extends Player {
 
     @Override
     public void offer() {
-        
+        for (Card c : this.hand.getCards()) {
+            System.out.print(c);
+        }
         Scanner s = new Scanner(System.in);
+        String iString = s.nextLine();
+        try {
+            this.hand.flipCardUp(Integer.parseInt(iString) - 1);
+        }
+        catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (UnreferencedCardException ex) {
+            System.getLogger(PhysicalPlayer.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (CardFlippingException ex) {
+            System.getLogger(PhysicalPlayer.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+
     }
 
     @Override

@@ -56,6 +56,7 @@ public class Card {
         return this.faceup;
     }
 
+    @Override
     public String toString() {
         return this.getval().getV() + " of " + this.getcol().getdesc();
 

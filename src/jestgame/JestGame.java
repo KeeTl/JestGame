@@ -4,7 +4,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
 import jestgame.cards.*;
+import jestgame.cards.exceptions.CardFlippingException;
+import jestgame.cards.exceptions.UnreferencedCardException;
 import jestgame.player.*;
+import jestgame.player.strategy.RandomStrategy;
 import jestgame.visitor.Visitor;
 import jestgame.visitor.VisitorDefault;
 
@@ -22,13 +25,14 @@ public class JestGame {
         this.draw = new Draw();
         this.trophies = new Trophies();
         this.visitor = new VisitorDefault();
+        this.players = new ArrayList();
         
         for (int i = 0; i < nPhysicalPlayers; i++) {
             players.add(new PhysicalPlayer(pNames[i]));
         }
 
         for (int j = 0; j < nVirtualPlayers; j++) {
-            players.add(new VirtualPlayer(pNames[nPhysicalPlayers + j]));
+            players.add(new VirtualPlayer(pNames[nPhysicalPlayers + j], new RandomStrategy()));
         }
 
         this.trophies.addCard(this.draw.drawCard());
@@ -46,6 +50,17 @@ public class JestGame {
      * 
      */
     public void round() {
+
+        for (Player p: this.players) {
+            try {
+                p.offer();
+            } catch (UnreferencedCardException ex) {
+                System.getLogger(JestGame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            } catch (CardFlippingException ex) {
+                System.getLogger(JestGame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+
         for (Player p : this.players) {
             p.acceptHand(this.visitor);
         }
@@ -54,10 +69,10 @@ public class JestGame {
         ArrayList<Player> playersAvailableToPick = new ArrayList(this.players);
         playersLeftToPlay.sort(Comparator.comparing(player -> ((Player)player).getHand().getScore()).reversed());
 
-        Player nextPlayer = playersLeftToPlay.remove(0);
+        Player nextPlayer = playersLeftToPlay.get(0);
 
         while (!playersLeftToPlay.isEmpty()) {
-
+            playersLeftToPlay.remove(nextPlayer);
             nextPlayer = nextPlayer.chooseCard(playersAvailableToPick, this.draw);
             playersAvailableToPick.remove(nextPlayer);
 
@@ -72,6 +87,7 @@ public class JestGame {
 
         for (int i = 0; i < 2; i++) {
             for (Player p : this.players) {
+                p.addToJest(p.getHand().removeCard(0));
                 if (this.draw.size() == 0) {
                     return;
                 }
@@ -103,11 +119,11 @@ public class JestGame {
     }
 
 
-    public static void main() {
+    public static void main(String[] args) {
         System.out.print("Please enter your name : ");
         Scanner s = new Scanner(System.in);
         String playerName = s.nextLine();
-        String[] pNames = {playerName}; 
+        String[] pNames = {playerName, "bot1", "bot2"}; 
 
         JestGame game = new JestGame(1, 2, pNames);
         while (game.getDraw().size() != 0) {

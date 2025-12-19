@@ -14,6 +14,7 @@ public abstract class Player {
     public Player(String name) {
         this.hand = new Hand();
         this.name = name;
+        this.jest = new Jest();
     }
 
     public String getname() {return this.name;}
