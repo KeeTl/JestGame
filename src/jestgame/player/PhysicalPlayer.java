@@ -23,7 +23,7 @@ public class PhysicalPlayer extends Player {
         System.out.println("Pick a player : ");
         int i = 1;
         for (Player p : availablePlayers) {
-            Sytem.out.print(i);
+            System.out.print(i);
             System.out.print(": ");
             System.out.print(p.getname());
             System.out.print(" ");
