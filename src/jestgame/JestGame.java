@@ -76,9 +76,25 @@ public class JestGame {
     }
 
     public Player endGame() {
+        this.trophies.accept(this.visitor);
         for (Player p : this.players) {
             p.acceptJest(this.visitor);
         }
+
+        for (Card c : this.trophies.getCards()) {
+            Player p = c.gettroph().trophy(this.players, c);
+            if (p != null) {
+                int cardIndex = this.trophies.getCards().indexOf(c);
+                Card card = this.trophies.getCards().get(cardIndex);
+                this.trophies.getCards().remove(cardIndex);
+                p.addToJest(card);
+            }
+        }
+
+        return this.players.stream().max(Comparator.comparing(p -> ((Player)p).getJest().getScore())).orElse(null);
+
+
+        
     }
 
 

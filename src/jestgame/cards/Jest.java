@@ -128,6 +128,11 @@ public class Jest extends CardGroup implements Visitable{
         return (int)this.score;
     }
 
+    // added to match callers expecting getScore()
+    public int getScore() {
+        return this.calculateScore();
+    }
+
     public void setScore(int s) {
         this.score = s;
     }

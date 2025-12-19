@@ -30,6 +30,7 @@ public class Trophies extends CardGroup implements Visitable{
         return (Card)((List)this.cards).remove(id);
     }
 
+
     @Override
     public void accept(Visitor v) {
         v.visit(this);
