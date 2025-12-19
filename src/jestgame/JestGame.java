@@ -99,7 +99,7 @@ public class JestGame {
 
 
     public static void main() {
-
+        JestGame
 
 
         

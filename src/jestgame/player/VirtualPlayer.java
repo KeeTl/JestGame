@@ -1,5 +1,6 @@
 package jestgame.player;
 
+import java.util.List;
 import jestgame.cards.*;
 import jestgame.cards.characteristics.*;
 import jestgame.cards.exceptions.CardFlippingException;
@@ -49,6 +50,16 @@ public class VirtualPlayer extends Player {
 
 
 
+    }
+
+    @Override
+    protected Player selectPlayer(List<Player> availablePlayers) {
+        this.playerStrategy.selectPlayer(availablePlayers);
+    }
+
+    @Override
+    protected Card selectCard(Hand h) {
+        this.playerStrategy.selectCard(h);
     }
 
 
