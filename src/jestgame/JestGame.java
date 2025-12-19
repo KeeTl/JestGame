@@ -72,9 +72,10 @@ public class JestGame {
         Player nextPlayer = playersLeftToPlay.get(0);
 
         while (!playersLeftToPlay.isEmpty()) {
-            playersLeftToPlay.remove(nextPlayer);
             nextPlayer = nextPlayer.chooseCard(playersAvailableToPick, this.draw);
-            playersAvailableToPick.remove(nextPlayer);
+            if (nextPlayer != null) {
+                playersAvailableToPick.remove(nextPlayer);
+            }
 
             if (playersLeftToPlay.indexOf(nextPlayer) == -1) {
                 nextPlayer = playersLeftToPlay.remove(0);

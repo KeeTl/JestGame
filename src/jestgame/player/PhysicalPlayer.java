@@ -15,7 +15,9 @@ public class PhysicalPlayer extends Player {
     @Override
     public void offer() {
         for (Card c : this.hand.getCards()) {
-            System.out.print(c);
+            System.out.print(this.hand.getCards().indexOf(c));
+            System.out.print(": ");
+            System.out.println(c);
         }
         Scanner s = new Scanner(System.in);
         String iString = s.nextLine();

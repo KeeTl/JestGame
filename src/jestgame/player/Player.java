@@ -47,14 +47,17 @@ public abstract class Player {
     }
 
     public final Player chooseCard(List<Player> availablePlayers, Draw draw) {
-        Player res = null;
-        if (availablePlayers.isEmpty()) {
+        if (availablePlayers == null || availablePlayers.isEmpty()) {
+            // pas d'adversaire -> piocher et terminer ce tour
             this.addToJest(draw.drawCard());
+            return null;
         }
-
-        else {
-            res = this.selectPlayer(availablePlayers);
-            this.addToJest(this.selectCard(res.getHand()));               
+        Player res = this.selectPlayer(availablePlayers);
+        if (res != null) {
+            Card chosen = this.selectCard(res.getHand());
+            if (chosen != null) {
+                this.addToJest(chosen);
+            }
         }
         return res;
     
