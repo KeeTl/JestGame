@@ -11,4 +11,5 @@ public class RandomStrategy implements Strategy {
         h.flipCardUp(ThreadLocalRandom.current().nextInt(0, h.getSize()));
     }
 
+    //public void pickCard()
 }

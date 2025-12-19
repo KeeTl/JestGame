@@ -1,8 +1,8 @@
 package jestgame.player;
+import java.util.List;
 import jestgame.cards.*;
-import jestgame.visitor.*;
-import jestgame.player.strategy.*;
 import jestgame.cards.exceptions.*;
+import jestgame.visitor.*;
 
 public abstract class Player {
 
@@ -25,8 +25,14 @@ public abstract class Player {
     public void addToHand(Card c) {
         this.hand.addCard(c);
     }
+    public void addToJest(Card c) {
+        this.jest.addCard(c);
+    }
 
-    public void accept(Visitor v) {
+    public void acceptHand(Visitor v) {
+        this.hand.accept(v);
+    }
+    public void acceptJest(Visitor v) {
         this.jest.accept(v);
     }
 
@@ -38,8 +44,20 @@ public abstract class Player {
         return this.hand;
     }
 
-    public abstract void chooseCard();
+    public final Player chooseCard(List<Player> availablePlayers, Draw draw) {
+        Player res = null;
+        if (availablePlayers.isEmpty()) {
+            this.addToJest(draw.drawCard());
+        }
 
+        else {
+            res = this.selectPlayer(availablePlayers);
+            this.addToJest(this.selectCard(res.getHand()));               
+        }
+        return res;
+    
+    }
 
-
+    protected abstract Player selectPlayer(List<Player> availablePlayers);
+    protected abstract Card selectCard(Hand h);
 }

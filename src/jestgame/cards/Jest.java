@@ -7,9 +7,9 @@ import jestgame.visitor.*;
 import jestgame.cards.characteristics.*;
 
 
-public class Jest extends CardGroup {
+public class Jest extends CardGroup implements Visitable{
 
-    private int score;
+    private float score;
 
     public Jest() {
         this.cards = new ArrayList();

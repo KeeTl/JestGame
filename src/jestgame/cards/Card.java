@@ -15,7 +15,7 @@ public class Card {
 
     private boolean faceup;
 
-    private int score = 0;
+    private float score = 0;
 
     /**
      * Card init.
@@ -87,11 +87,11 @@ public class Card {
         return this.faceup;
     }
 
-    public void setscore(int s) {
+    public float setscore(float s) {
         this.score = s;
     }
 
-    public int getscore() {
+    public float getscore() {
         return this.score;
     }
 

@@ -1,16 +1,24 @@
 
 package jestgame.cards;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import jestgame.cards.exceptions.CardFlippingException;
 import jestgame.cards.exceptions.UnreferencedCardException;
+import jestgame.visitor.*;
 
-public class Hand extends CardGroup {
+public class Hand extends CardGroup implements Visitable {
+
+    private float score;
 
     public Hand() {
         this.cards = new ArrayList();
+    }
+
+    @Override
+    public void accept(Visitor v) {
+        v.visit(this);
     }
 
     public Card removeCard(int id) {
@@ -48,8 +56,11 @@ public class Hand extends CardGroup {
     public String toString() {
         StringBuffer s = new StringBuffer();
         Iterator<Card> it = this.cards.iterator();
+        int i = 1;
         while (it.hasNext()) {
-            Card c = it.next();
+            Card c = it.next();            
+            s.append(i);
+            s.append(": ");
             if (c.isFaceup()) {
                 s.append(c.toString());
             }
@@ -59,7 +70,24 @@ public class Hand extends CardGroup {
             s.append(" | ");
         }
         return s.toString();
-    }    
+    }
+
+    public void setScore(int i) {
+        this.score = i;
+    }
+
+    public float getScore() {
+        return this.score;
+    }
+
+    public float calculateScore() {
+        this.score = 0;
+        for (Card c : this.cards) {
+            if (c.isFaceup()) this.score += c.getscore();
+        }
+        return this.score;        
+    }
+
 
     /*
     public Card removeCard(int id) {

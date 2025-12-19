@@ -3,6 +3,7 @@ import jestgame.cards.Jest;
 import jestgame.cards.Card;
 import jestgame.cards.characteristics.*;
 import java.util.*;
+import jestgame.cards.Hand;
 import jestgame.cards.characteristics.*;
 
 public class VisitorDefault implements Visitor {
@@ -63,4 +64,23 @@ public class VisitorDefault implements Visitor {
 
         jest.calculateScore();
     }
+
+    
+    public void visit(Hand hand) {
+        List<COLOR> colorVals = new ArrayList<>() {{
+            add(COLOR.HEARTS);
+            add(COLOR.DIAMONDS);
+            add(COLOR.CLUBS);
+            add(COLOR.SPADES);
+            add(COLOR.JOKER);
+            }};
+
+        for (Card c : hand.getCards()) {
+            if (c.isFaceup()) {
+                c.setscore(c.getval().getV() + (colorVals.indexOf(c.getcol()) / 10));                
+            }
+        }
+    }
+
+
 }
