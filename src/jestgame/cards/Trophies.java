@@ -1,10 +1,12 @@
 package jestgame.cards;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import jestgame.cards.exceptions.CardFlippingException;
+import jestgame.visitor.Visitable;
+import jestgame.visitor.Visitor;
 
-public class Trophies extends CardGroup {
+public class Trophies extends CardGroup implements Visitable{
     public Trophies() {
         this.cards = new ArrayList<>();
     }
@@ -19,9 +21,18 @@ public class Trophies extends CardGroup {
         super.addCard(c);
     }
 
+    public List<Card> getCards() {
+        return (List)this.cards;
+    }
+
     @Override
     public Card removeCard(int id) {
         return (Card)((List)this.cards).remove(id);
+    }
+
+    @Override
+    public void accept(Visitor v) {
+        v.visit(this);
     }
 
 }

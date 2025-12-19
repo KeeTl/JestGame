@@ -1,10 +1,9 @@
 package jestgame.cards;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import jestgame.visitor.*;
+import java.util.List;
 import jestgame.cards.characteristics.*;
+import jestgame.visitor.*;
 
 
 public class Jest extends CardGroup implements Visitable{
@@ -68,7 +67,7 @@ public class Jest extends CardGroup implements Visitable{
         while (c.hasNext()) {
             this.score += c.next().getscore();
         }
-        return this.score;        
+        return (int)this.score;        
     }
 
     public Card lowestCard() {

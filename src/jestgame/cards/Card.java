@@ -1,7 +1,6 @@
 package jestgame.cards;
-import jestgame.cards.exceptions.*;
 import jestgame.cards.characteristics.*;
-import jestgame.visitor.*;
+import jestgame.cards.exceptions.*;
 
 /**
  * Card class, it's name is pretty explicit isn't he ?
@@ -89,6 +88,7 @@ public class Card {
 
     public float setscore(float s) {
         this.score = s;
+        return this.score;
     }
 
     public float getscore() {

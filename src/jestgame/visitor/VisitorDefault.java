@@ -1,9 +1,9 @@
 package jestgame.visitor;
-import jestgame.cards.Jest;
-import jestgame.cards.Card;
-import jestgame.cards.characteristics.*;
 import java.util.*;
+import jestgame.cards.Card;
 import jestgame.cards.Hand;
+import jestgame.cards.Jest;
+import jestgame.cards.Trophies;
 import jestgame.cards.characteristics.*;
 
 public class VisitorDefault implements Visitor {
@@ -82,5 +82,40 @@ public class VisitorDefault implements Visitor {
         }
     }
 
+    public void visit(Trophies t) {
+        Map<COLOR, Map<VALUE, TROPHY>> trophiesMap = new HashMap() {{
+            put(COLOR.HEARTS, new HashMap() {{
+                put(VALUE.ACE, TROPHY.JOKER);
+                put(VALUE.TWO, TROPHY.JOKER);
+                put(VALUE.THREE, TROPHY.JOKER);
+                put(VALUE.FOUR, TROPHY.JOKER);
+            }});
 
+            put(COLOR.DIAMONDS, new HashMap() {{
+                put(VALUE.ACE, TROPHY.MAJORITY);
+                put(VALUE.TWO, TROPHY.HIGHEST);
+                put(VALUE.THREE, TROPHY.LOWEST);
+                put(VALUE.FOUR, TROPHY.BESTJEST_NOJOKE);
+            }});
+
+            put(COLOR.CLUBS, new HashMap() {{
+                put(VALUE.ACE, TROPHY.HIGHEST);
+                put(VALUE.TWO, TROPHY.LOWEST);
+                put(VALUE.THREE, TROPHY.HIGHEST);
+                put(VALUE.FOUR, TROPHY.LOWEST);
+            }});
+            
+             put(COLOR.SPADES, new HashMap() {{
+                put(VALUE.ACE, TROPHY.HIGHEST);
+                put(VALUE.TWO, TROPHY.MAJORITY);
+                put(VALUE.THREE, TROPHY.MAJORITY);
+                put(VALUE.FOUR, TROPHY.LOWEST);
+            }});
+
+        }};
+
+        for (Card c : t.getCards()) {
+            c.setTrophy(trophiesMap.get(c.getcol()).get(c.getval()));
+        }
+    }
 }
