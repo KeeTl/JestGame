@@ -20,11 +20,6 @@ public class VirtualPlayer extends Player {
     }
 
     @Override
-    public void chooseCard() {
-
-    }
-
-    @Override
     public void offer() throws UnreferencedCardException, CardFlippingException{
         this.playerStrategy.offerCard(this.hand);
     }
@@ -54,12 +49,12 @@ public class VirtualPlayer extends Player {
 
     @Override
     protected Player selectPlayer(List<Player> availablePlayers) {
-        this.playerStrategy.selectPlayer(availablePlayers);
+        return this.playerStrategy.selectPlayer(availablePlayers);
     }
 
     @Override
     protected Card selectCard(Hand h) {
-        this.playerStrategy.selectCard(h);
+        return this.playerStrategy.selectCard(h);
     }
 
 

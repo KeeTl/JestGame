@@ -19,7 +19,7 @@ public class RandomStrategy implements Strategy {
 
     @Override
     public Player selectPlayer(List<Player> availablePlayers) {
-        return availablePlayers.get(ThreadLocalRandom.current().nextInt(0, availablePlayers.getSize()));
+        return availablePlayers.get(ThreadLocalRandom.current().nextInt(0, availablePlayers.size()));
     }
 
     @Override

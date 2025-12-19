@@ -2,6 +2,7 @@ package jestgame;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Scanner;
 import jestgame.cards.*;
 import jestgame.player.*;
 import jestgame.visitor.Visitor;
@@ -12,6 +13,10 @@ public class JestGame {
     private Trophies trophies;
     private ArrayList<Player> players;
     private Visitor visitor;
+
+    public Draw getDraw() {
+        return this.draw;
+    }
 
     public JestGame(int nPhysicalPlayers, int nVirtualPlayers, String[] pNames) {
         this.draw = new Draw();
@@ -99,9 +104,18 @@ public class JestGame {
 
 
     public static void main() {
-        JestGame
+        System.out.print("Please enter your name : ");
+        Scanner s = new Scanner(System.in);
+        String playerName = s.nextLine();
+        String[] pNames = {playerName}; 
+
+        JestGame game = new JestGame(1, 2, pNames);
+        while (game.getDraw().size() != 0) {
+            game.round();
+        }
+
+        game.endGame();
 
 
-        
     }
 }

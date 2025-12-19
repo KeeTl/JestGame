@@ -37,6 +37,7 @@ public abstract class Player {
     }
 
     public Jest getJest() {
+        System.out.print("");
         return this.jest;
     }
 

@@ -1,8 +1,7 @@
 package jestgame.player;
 import java.util.List;
 import java.util.Scanner;
-import javax.swing.text.PlainDocument;
-import jestgame.cards.Draw;
+import jestgame.cards.Card;
 import jestgame.cards.Hand;
 
 public class PhysicalPlayer extends Player {
@@ -28,7 +27,7 @@ public class PhysicalPlayer extends Player {
             System.out.print(p.getname());
             System.out.print(" ");
             System.out.println(p.getHand());
-            i++
+            i++;
         }
         Scanner pInput = new Scanner(System.in);
         String iString = pInput.nextLine();
