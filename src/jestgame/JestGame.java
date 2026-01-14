@@ -2,16 +2,18 @@ package jestgame;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import jestgame.cards.*;
 import jestgame.cards.exceptions.CardFlippingException;
 import jestgame.cards.exceptions.UnreferencedCardException;
 import jestgame.player.*;
 import jestgame.player.strategy.RandomStrategy;
+import jestgame.view.Vue;
 import jestgame.visitor.Visitor;
 import jestgame.visitor.VisitorDefault;
 
-public class JestGame {
+public class JestGame implements Runnable {
     private Draw draw;
     private Trophies trophies;
     private ArrayList<Player> players;
@@ -20,6 +22,9 @@ public class JestGame {
     public Draw getDraw() {
         return this.draw;
     }
+
+    public ArrayList<Player> getPlayers() {return this.players;}
+    public Trophies trophies() {return this.trophies;}
 
     public JestGame(int nPhysicalPlayers, int nVirtualPlayers, String[] pNames) {
         this.draw = new Draw();
@@ -46,11 +51,26 @@ public class JestGame {
         }
     }
 
+    public void partie() {
+        new Thread(this).start();
+    }
+
+    public void run() {
+        while (this.getDraw().size() != 0) {
+            this.round();
+        }
+
+        List<Player> endRanking = this.endGame();
+        for (Player p : endRanking) {
+            System.out.println(p.getname());
+        }
+    }
+
     /**
      * 
      */
     public void round() {
-
+    
         for (Player p: this.players) {
             try {
                 p.offer();
@@ -65,59 +85,80 @@ public class JestGame {
             p.acceptHand(this.visitor);
         }
 
-        ArrayList<Player> playersLeftToPlay = new ArrayList(this.players);
-        ArrayList<Player> playersAvailableToPick = new ArrayList(this.players);
-        playersLeftToPlay.sort(Comparator.comparing(player -> ((Player)player).getHand().getScore()).reversed());
+        ArrayList<Player> avalaiblePlayers = new ArrayList<>(this.players);
+        ArrayList<Player> playOrder = new ArrayList<>(this.players);
 
-        Player nextPlayer = playersLeftToPlay.get(0);
+        playOrder.sort(Comparator.comparing(p -> ((Player)  p).getHand().getScore()).reversed());
 
-        while (!playersLeftToPlay.isEmpty()) {
-            nextPlayer = nextPlayer.chooseCard(playersAvailableToPick, this.draw);
-            if (nextPlayer != null) {
-                playersAvailableToPick.remove(nextPlayer);
-            }
+        Player currentPlayer = playOrder.remove(0);
 
-            if (playersLeftToPlay.indexOf(nextPlayer) == -1) {
-                nextPlayer = playersLeftToPlay.remove(0);
+        while (!playOrder.isEmpty()) {
+            Player chosenPlayer;
+            if (avalaiblePlayers.contains(currentPlayer)) {
+                avalaiblePlayers.remove(currentPlayer);
+                chosenPlayer = currentPlayer.chooseCard(avalaiblePlayers, this.draw);
+                avalaiblePlayers.add(currentPlayer);
             }
 
             else {
-                playersLeftToPlay.remove(nextPlayer);
+                chosenPlayer = currentPlayer.chooseCard(avalaiblePlayers, this.draw);
+            }
+
+            avalaiblePlayers.remove(chosenPlayer);
+
+            if (chosenPlayer != null) {
+                if (playOrder.contains(chosenPlayer)) {
+                    currentPlayer = chosenPlayer;
+                    playOrder.remove(currentPlayer);
+                }
+
+                else {
+                    currentPlayer = playOrder.remove(0);
+                }
+
             }
         }
 
-        for (int i = 0; i < 2; i++) {
-            for (Player p : this.players) {
-                p.addToJest(p.getHand().removeCard(0));
-                if (this.draw.size() == 0) {
-                    return;
+
+        if (this.draw.size() > 0) {
+            for (Player p  : this.players) {
+                while (p.getHand().getSize() > 0) {
+                    Card remainingCard = p.getHand().removeCard(0);
+                    p.addToJest(remainingCard);
                 }
-                p.addToHand(this.draw.drawCard());
+            }
+            for (int i = 0; i < 2; i++) {
+                for (Player p : this.players) {
+                    if (this.draw.size() > 0) {
+                        p.addToHand(this.draw.drawCard());
+                    }
+                }
             }
         }
     }
-
-    public Player endGame() {
+    
+    public List<Player> endGame() {
         this.trophies.accept(this.visitor);
         for (Player p : this.players) {
             p.acceptJest(this.visitor);
         }
 
-        for (Card c : this.trophies.getCards()) {
+        Iterator<Card> iC = this.trophies.getCards().iterator();
+        while (iC.hasNext()) {
+            Card c = iC.next();
             Player p = c.gettroph().trophy(this.players, c);
             if (p != null) {
-                int cardIndex = this.trophies.getCards().indexOf(c);
-                Card card = this.trophies.getCards().get(cardIndex);
-                this.trophies.getCards().remove(cardIndex);
-                p.addToJest(card);
+                this.trophies.getCards().remove(c);
+                p.addToJest(c);
             }
         }
-
-        return this.players.stream().max(Comparator.comparing(p -> ((Player)p).getJest().getScore())).orElse(null);
-
-
         
-    }
+        List<Player> res = new ArrayList(this.players);
+        res.sort(Comparator.comparing(p -> ((Player)  p).getJest().getScore()).reversed());
+        return res;
+        
+        
+    } 
 
 
     public static void main(String[] args) {
@@ -127,12 +168,10 @@ public class JestGame {
         String[] pNames = {playerName, "bot1", "bot2"}; 
 
         JestGame game = new JestGame(1, 2, pNames);
-        while (game.getDraw().size() != 0) {
-            game.round();
-        }
+        
+        Vue GUI = new Vue(game);
 
-        game.endGame();
-
+        game.partie();
 
     }
 }

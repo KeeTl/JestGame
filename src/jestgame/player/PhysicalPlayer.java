@@ -32,6 +32,8 @@ public class PhysicalPlayer extends Player {
             System.getLogger(PhysicalPlayer.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
 
+        this.diffuser.firePropertyChange("hand", null, this.hand);
+
     }
 
     @Override
@@ -64,6 +66,7 @@ public class PhysicalPlayer extends Player {
         System.out.println(h);
         Scanner pInput = new Scanner(System.in);
         String iString = pInput.nextLine();
+        
         try {
             cId = Integer.parseInt(iString);
         } catch (NumberFormatException e) {

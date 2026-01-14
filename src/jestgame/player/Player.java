@@ -1,4 +1,6 @@
 package jestgame.player;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 import jestgame.cards.*;
 import jestgame.cards.exceptions.*;
@@ -9,25 +11,36 @@ public abstract class Player {
     private String name;
     protected Hand hand;
     private Jest jest;
+    protected PropertyChangeSupport diffuser;
 
 
     public Player(String name) {
         this.hand = new Hand();
         this.name = name;
         this.jest = new Jest();
+        this.diffuser = new PropertyChangeSupport(this);
+    }
+
+    public void addEventListener(PropertyChangeListener pcl) {
+        this.diffuser.addPropertyChangeListener(pcl);
+        this.diffuser.firePropertyChange("hand", null, this.hand); 
+        this.diffuser.firePropertyChange("name", null, this.name); 
+        this.diffuser.firePropertyChange("jest", null, this.jest);
     }
 
     public String getname() {return this.name;}
-    public void setname(String newname) {this.name = newname;}
+    public void setname(String newname) {this.name = newname; this.diffuser.firePropertyChange("name", null, this.name);}
 
 
     public abstract void offer() throws UnreferencedCardException, CardFlippingException;
 
     public void addToHand(Card c) {
         this.hand.addCard(c);
+        this.diffuser.firePropertyChange("hand", null, this.hand);
     }
     public void addToJest(Card c) {
         this.jest.addCard(c);
+        this.diffuser.firePropertyChange("jest", null, this.jest);
     }
 
     public void acceptHand(Visitor v) {
@@ -43,6 +56,7 @@ public abstract class Player {
     }
 
     public Hand getHand() {
+        this.diffuser.firePropertyChange("hand", null, this.hand);
         return this.hand;
     }
 
@@ -54,7 +68,10 @@ public abstract class Player {
 
         else {
             res = this.selectPlayer(availablePlayers);
-            this.addToJest(this.selectCard(res.getHand()));               
+            Card c = this.selectCard(res.getHand());
+            res.getHand().removeCard(c);
+            this.addToJest(c);
+                           
         }
         return res;
     

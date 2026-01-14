@@ -25,6 +25,10 @@ public class Hand extends CardGroup implements Visitable {
         return (Card)((List)this.cards).remove(id);
     }
 
+    public boolean removeCard(Card c) {
+        return ((List)this.cards).remove(c);
+    }
+
     public List<Card> getCards() {
         return (List)this.cards;
     }

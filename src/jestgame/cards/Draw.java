@@ -40,6 +40,7 @@ public class Draw extends CardGroup {
                 originalCards.add(new Card(currentValue, currentColor));
             }
         }
+        originalCards.add(new Card(VALUE.JOKER, COLOR.JOKER));
         this.fill(originalCards);
     }
 

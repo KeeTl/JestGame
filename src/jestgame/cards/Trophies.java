@@ -1,5 +1,7 @@
 package jestgame.cards;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import jestgame.cards.exceptions.CardFlippingException;
@@ -7,8 +9,15 @@ import jestgame.visitor.Visitable;
 import jestgame.visitor.Visitor;
 
 public class Trophies extends CardGroup implements Visitable{
+    private PropertyChangeSupport diffuser;
     public Trophies() {
-        this.cards = new ArrayList<>();
+        this.cards = new ArrayList();
+        this.diffuser = new PropertyChangeSupport(this);
+    }
+
+    public void addEventListener(PropertyChangeListener pcl) {
+        this.diffuser.addPropertyChangeListener(pcl);
+        this.diffuser.firePropertyChange("update", this, this);
     }
 
     @Override
@@ -19,6 +28,7 @@ public class Trophies extends CardGroup implements Visitable{
             e.printStackTrace();
         }
         super.addCard(c);
+        this.diffuser.firePropertyChange("update", this, this);
     }
 
     public List<Card> getCards() {
@@ -27,6 +37,7 @@ public class Trophies extends CardGroup implements Visitable{
 
     @Override
     public Card removeCard(int id) {
+        this.diffuser.firePropertyChange("update", this, this);
         return (Card)((List)this.cards).remove(id);
     }
 

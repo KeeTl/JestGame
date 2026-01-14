@@ -22,6 +22,8 @@ public class VirtualPlayer extends Player {
     @Override
     public void offer() throws UnreferencedCardException, CardFlippingException{
         this.playerStrategy.offerCard(this.hand);
+        
+        this.diffuser.firePropertyChange("hand", null, this.hand);
     }
 
     @Override
